@@ -5,7 +5,7 @@
     <LangVersion>9.0</LangVersion>
     <RootNamespace>System.Numerics</RootNamespace>
     <Copyright>(c) .NET Foundation and Contributors</Copyright>
-    <PackageProjectUrl>https://dot.net/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/udaken/Shim.System.Numerics</PackageProjectUrl>
     <Authors>Kenichi Uda</Authors>
     <PackageLicenseFile>LICENSE.TXT</PackageLicenseFile>
     <RepositoryUrl>https://github.com/udaken/Shim.System.Numerics</RepositoryUrl>
@@ -13,6 +13,8 @@
 
 Note: This package is not provided by Microsoft or the .NET Foundation.</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
