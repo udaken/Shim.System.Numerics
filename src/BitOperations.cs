@@ -1,13 +1,16 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+#if !NETSTANDARD
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.Arm;
 using System.Runtime.Intrinsics.X86;
 
 using Internal.Runtime.CompilerServices;
+#endif
 
 // Some routines inspired by the Stanford Bit Twiddling Hacks by Sean Eron Anderson:
 // http://graphics.stanford.edu/~seander/bithacks.html
@@ -49,6 +52,7 @@ namespace System.Numerics
         [CLSCompliant(false)]
         public static int LeadingZeroCount(uint value)
         {
+#if !NETSTANDARD
             if (Lzcnt.IsSupported)
             {
                 // LZCNT contract is 0->32
@@ -59,6 +63,7 @@ namespace System.Numerics
             {
                 return ArmBase.LeadingZeroCount(value);
             }
+#endif
 
             // Unguarded fallback contract is 0->31, BSR contract is 0->undefined
             if (value == 0)
@@ -66,6 +71,7 @@ namespace System.Numerics
                 return 32;
             }
 
+#if !NETSTANDARD
             if (X86Base.IsSupported)
             {
                 // LZCNT returns index starting from MSB, whereas BSR gives the index from LSB.
@@ -73,6 +79,7 @@ namespace System.Numerics
                 // This saves an instruction, as subtraction from constant requires either MOV/SUB or NEG/ADD.
                 return 31 ^ (int)X86Base.BitScanReverse(value);
             }
+#endif
 
             return 31 ^ Log2SoftwareFallback(value);
         }
@@ -86,6 +93,7 @@ namespace System.Numerics
         [CLSCompliant(false)]
         public static int LeadingZeroCount(ulong value)
         {
+#if !NETSTANDARD
             if (Lzcnt.X64.IsSupported)
             {
                 // LZCNT contract is 0->64
@@ -102,6 +110,7 @@ namespace System.Numerics
                 // BSR contract is 0->undefined
                 return value == 0 ? 64 : 63 ^ (int)X86Base.X64.BitScanReverse(value);
             }
+#endif
 
             uint hi = (uint)(value >> 32);
 
@@ -126,6 +135,7 @@ namespace System.Numerics
             // Log(1) is 0, and setting the LSB for values > 1 does not change the log2 result.
             value |= 1;
 
+#if !NETSTANDARD
             // value    lzcnt   actual  expected
             // ..0001   31      31-31    0
             // ..0010   30      31-30    1
@@ -148,6 +158,7 @@ namespace System.Numerics
             {
                 return (int)X86Base.BitScanReverse(value);
             }
+#endif
 
             // Fallback contract is 0->0
             return Log2SoftwareFallback(value);
@@ -164,6 +175,7 @@ namespace System.Numerics
         {
             value |= 1;
 
+#if !NETSTANDARD
             if (Lzcnt.X64.IsSupported)
             {
                 return 63 ^ (int)Lzcnt.X64.LeadingZeroCount(value);
@@ -178,6 +190,7 @@ namespace System.Numerics
             {
                 return (int)X86Base.X64.BitScanReverse(value);
             }
+#endif
 
             uint hi = (uint)(value >> 32);
 
@@ -220,11 +233,14 @@ namespace System.Numerics
         /// Similar in behavior to the x86 instruction POPCNT.
         /// </summary>
         /// <param name="value">The value.</param>
+#if !NETSTANDARD
         [Intrinsic]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
         public static int PopCount(uint value)
         {
+#if !NETSTANDARD
             if (Popcnt.IsSupported)
             {
                 return (int)Popcnt.PopCount(value);
@@ -238,6 +254,7 @@ namespace System.Numerics
                 Vector64<byte> aggregated = AdvSimd.Arm64.AddAcross(AdvSimd.PopCount(input.AsByte()));
                 return aggregated.ToScalar();
             }
+#endif
 
             return SoftwareFallback(value);
 
@@ -261,11 +278,14 @@ namespace System.Numerics
         /// Similar in behavior to the x86 instruction POPCNT.
         /// </summary>
         /// <param name="value">The value.</param>
+#if !NETSTANDARD
         [Intrinsic]
+#endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [CLSCompliant(false)]
         public static int PopCount(ulong value)
         {
+#if !NETSTANDARD
             if (Popcnt.X64.IsSupported)
             {
                 return (int)Popcnt.X64.PopCount(value);
@@ -278,12 +298,13 @@ namespace System.Numerics
                 Vector64<byte> aggregated = AdvSimd.Arm64.AddAcross(AdvSimd.PopCount(input.AsByte()));
                 return aggregated.ToScalar();
             }
+#endif
 
-#if TARGET_32BIT
-            return PopCount((uint)value) // lo
-                + PopCount((uint)(value >> 32)); // hi
-#else
-            return SoftwareFallback(value);
+            if (IntPtr.Size == 4)
+                return PopCount((uint)value) // lo
+                    + PopCount((uint)(value >> 32)); // hi
+            else
+                return SoftwareFallback(value);
 
             static int SoftwareFallback(ulong value)
             {
@@ -298,7 +319,7 @@ namespace System.Numerics
 
                 return (int)value;
             }
-#endif
+
         }
 
         /// <summary>
@@ -319,6 +340,7 @@ namespace System.Numerics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int TrailingZeroCount(uint value)
         {
+#if !NETSTANDARD
             if (Bmi1.IsSupported)
             {
                 // TZCNT contract is 0->32
@@ -329,6 +351,7 @@ namespace System.Numerics
             {
                 return ArmBase.LeadingZeroCount(ArmBase.ReverseElementBits(value));
             }
+#endif
 
             // Unguarded fallback contract is 0->0, BSF contract is 0->undefined
             if (value == 0)
@@ -336,10 +359,12 @@ namespace System.Numerics
                 return 32;
             }
 
+#if !NETSTANDARD
             if (X86Base.IsSupported)
             {
                 return (int)X86Base.BitScanForward(value);
             }
+#endif
 
             // uint.MaxValue >> 27 is always in range [0 - 31] so we use Unsafe.AddByteOffset to avoid bounds check
             return Unsafe.AddByteOffset(
@@ -367,6 +392,7 @@ namespace System.Numerics
         [CLSCompliant(false)]
         public static int TrailingZeroCount(ulong value)
         {
+#if !NETSTANDARD
             if (Bmi1.X64.IsSupported)
             {
                 // TZCNT contract is 0->64
@@ -383,6 +409,7 @@ namespace System.Numerics
                 // BSF contract is 0->undefined
                 return value == 0 ? 64 : (int)X86Base.X64.BitScanForward(value);
             }
+#endif
 
             uint lo = (uint)value;
 

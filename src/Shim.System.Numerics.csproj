@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <RootNamespace>System.Numerics</RootNamespace>
+    <Copyright>(c) .NET Foundation and Contributors</Copyright>
+    <PackageProjectUrl>https://dot.net/</PackageProjectUrl>
+    <Authors>Kenichi Uda</Authors>
+    <PackageLicenseFile>LICENSE.TXT</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/udaken/Shim.System.Numerics</RepositoryUrl>
+    <Description>This package provides System.Numerics.BitOperations backport for .NET Standard 2.0.
+
+Note: This package is not provided by Microsoft or the .NET Foundation.</Description>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../LICENSE.TXT">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
