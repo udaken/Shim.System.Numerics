@@ -11,6 +11,252 @@ namespace System.Numerics.Tests
     public static class BitOperationsTests
     {
         [Theory]
+        [InlineData(0b0, false)]
+        [InlineData(0b01, true)]
+        [InlineData(0b10, true)]
+        [InlineData(0b11, false)]
+        [InlineData(0b100, true)]
+        [InlineData(0b101, false)]
+        [InlineData(0b110, false)]
+        [InlineData(0b111, false)]
+        [InlineData(0b1000, true)]
+        [InlineData(0b1001, false)]
+        [InlineData(0b1010, false)]
+        [InlineData(0b1011, false)]
+        [InlineData(0b1100, false)]
+        [InlineData(0b1101, false)]
+        [InlineData(0b1110, false)]
+        [InlineData(0b1111, false)]
+        [InlineData(0b10000, true)]
+        [InlineData(0b11111, false)]
+        [InlineData(0b100000, true)]
+        [InlineData(0b100001, false)]
+        public static void BitOps_IsPow2_int(int n, bool expected)
+        {
+            bool actual = BitOperations.IsPow2(n);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(0b0u, false)]
+        [InlineData(0b01u, true)]
+        [InlineData(0b10u, true)]
+        [InlineData(0b11u, false)]
+        [InlineData(0b100u, true)]
+        [InlineData(0b101u, false)]
+        [InlineData(0b110u, false)]
+        [InlineData(0b111u, false)]
+        [InlineData(0b1000u, true)]
+        [InlineData(0b1001u, false)]
+        [InlineData(0b1010u, false)]
+        [InlineData(0b1011u, false)]
+        [InlineData(0b1100u, false)]
+        [InlineData(0b1101u, false)]
+        [InlineData(0b1110u, false)]
+        [InlineData(0b1111u, false)]
+        [InlineData(0b10000u, true)]
+        [InlineData(0b11111u, false)]
+        [InlineData(0b100000u, true)]
+        [InlineData(0b100001u, false)]
+        public static void BitOps_IsPow2_uint(uint n, bool expected)
+        {
+            bool actual = BitOperations.IsPow2(n);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(0b0L, false)]
+        [InlineData(0b01L, true)]
+        [InlineData(0b10L, true)]
+        [InlineData(0b11L, false)]
+        [InlineData(0b100L, true)]
+        [InlineData(0b101L, false)]
+        [InlineData(0b110L, false)]
+        [InlineData(0b111L, false)]
+        [InlineData(0b1000L, true)]
+        [InlineData(0b1001L, false)]
+        [InlineData(0b1010L, false)]
+        [InlineData(0b1011L, false)]
+        [InlineData(0b1100L, false)]
+        [InlineData(0b1101L, false)]
+        [InlineData(0b1110L, false)]
+        [InlineData(0b1111L, false)]
+        [InlineData(0b10000L, true)]
+        [InlineData(0b11111L, false)]
+        [InlineData(0b100000L, true)]
+        [InlineData(0b100001L, false)]
+        public static void BitOps_IsPow2_long(long n, bool expected)
+        {
+            bool actual = BitOperations.IsPow2(n);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(0b0ul, false)]
+        [InlineData(0b01ul, true)]
+        [InlineData(0b10ul, true)]
+        [InlineData(0b11ul, false)]
+        [InlineData(0b100ul, true)]
+        [InlineData(0b101ul, false)]
+        [InlineData(0b110ul, false)]
+        [InlineData(0b111ul, false)]
+        [InlineData(0b1000ul, true)]
+        [InlineData(0b1001ul, false)]
+        [InlineData(0b1010ul, false)]
+        [InlineData(0b1011ul, false)]
+        [InlineData(0b1100ul, false)]
+        [InlineData(0b1101ul, false)]
+        [InlineData(0b1110ul, false)]
+        [InlineData(0b1111ul, false)]
+        [InlineData(0b10000ul, true)]
+        [InlineData(0b11111ul, false)]
+        [InlineData(0b100000ul, true)]
+        [InlineData(0b100001ul, false)]
+        public static void BitOps_IsPow2_ulong(ulong n, bool expected)
+        {
+            bool actual = BitOperations.IsPow2(n);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(0b0, false)]
+        [InlineData(0b01, true)]
+        [InlineData(0b10, true)]
+        [InlineData(0b11, false)]
+        [InlineData(0b100, true)]
+        [InlineData(0b101, false)]
+        [InlineData(0b110, false)]
+        [InlineData(0b111, false)]
+        [InlineData(0b1000, true)]
+        [InlineData(0b1001, false)]
+        [InlineData(0b1010, false)]
+        [InlineData(0b1011, false)]
+        [InlineData(0b1100, false)]
+        [InlineData(0b1101, false)]
+        [InlineData(0b1110, false)]
+        [InlineData(0b1111, false)]
+        [InlineData(0b10000, true)]
+        [InlineData(0b11111, false)]
+        [InlineData(0b100000, true)]
+        [InlineData(0b100001, false)]
+        public static void BitOps_IsPow2_nint(int n, bool expected)
+        {
+            bool actual = BitOperations.IsPow2((nint)n);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(0b0u, false)]
+        [InlineData(0b01u, true)]
+        [InlineData(0b10u, true)]
+        [InlineData(0b11u, false)]
+        [InlineData(0b100u, true)]
+        [InlineData(0b101u, false)]
+        [InlineData(0b110u, false)]
+        [InlineData(0b111u, false)]
+        [InlineData(0b1000u, true)]
+        [InlineData(0b1001u, false)]
+        [InlineData(0b1010u, false)]
+        [InlineData(0b1011u, false)]
+        [InlineData(0b1100u, false)]
+        [InlineData(0b1101u, false)]
+        [InlineData(0b1110u, false)]
+        [InlineData(0b1111u, false)]
+        [InlineData(0b10000u, true)]
+        [InlineData(0b11111u, false)]
+        [InlineData(0b100000u, true)]
+        [InlineData(0b100001u, false)]
+        public static void BitOps_IsPow2_nuint(uint n, bool expected)
+        {
+            bool actual = BitOperations.IsPow2((nuint)n);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(0b0u, 0u)]
+        [InlineData(0b01, 1u)]
+        [InlineData(0b10u, 2u)]
+        [InlineData(0b11u, 4u)]
+        [InlineData(0b100u, 4u)]
+        [InlineData(0b101u, 8u)]
+        [InlineData(0b110u, 8u)]
+        [InlineData(0b111u, 8u)]
+        [InlineData(0b1000u, 8u)]
+        [InlineData(0b1001u, 16u)]
+        [InlineData(0b1010u, 16u)]
+        [InlineData(0b1011u, 16u)]
+        [InlineData(0b1100u, 16u)]
+        [InlineData(0b1101u, 16u)]
+        [InlineData(0b1110u, 16u)]
+        [InlineData(0b1111u, 16u)]
+        [InlineData(0b10000u, 16u)]
+        [InlineData(0b11111u, 32u)]
+        [InlineData(0b100000u, 32u)]
+        [InlineData(0b100001u, 64u)]
+        [InlineData(uint.MaxValue, 0u)]
+        public static void BitOps_RoundUpToPowerOf2_uint(uint n, uint expected)
+        {
+            uint actual = BitOperations.RoundUpToPowerOf2(n);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(0b0ul, 0ul)]
+        [InlineData(0b01, 1ul)]
+        [InlineData(0b10ul, 2ul)]
+        [InlineData(0b11ul, 4ul)]
+        [InlineData(0b100ul, 4ul)]
+        [InlineData(0b101ul, 8ul)]
+        [InlineData(0b110ul, 8ul)]
+        [InlineData(0b111ul, 8ul)]
+        [InlineData(0b1000ul, 8ul)]
+        [InlineData(0b1001ul, 16ul)]
+        [InlineData(0b1010ul, 16ul)]
+        [InlineData(0b1011ul, 16ul)]
+        [InlineData(0b1100ul, 16ul)]
+        [InlineData(0b1101ul, 16ul)]
+        [InlineData(0b1110ul, 16ul)]
+        [InlineData(0b1111ul, 16ul)]
+        [InlineData(0b10000ul, 16ul)]
+        [InlineData(0b11111ul, 32ul)]
+        [InlineData(0b100000ul, 32ul)]
+        [InlineData(0b100001ul, 64ul)]
+        [InlineData(ulong.MaxValue, 0ul)]
+        public static void BitOps_RoundUpToPowerOf2_ulong(ulong n, ulong expected)
+        {
+            ulong actual = BitOperations.RoundUpToPowerOf2(n);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(0b0u, 0u)]
+        [InlineData(0b01, 1u)]
+        [InlineData(0b10u, 2u)]
+        [InlineData(0b11u, 4u)]
+        [InlineData(0b100u, 4u)]
+        [InlineData(0b101u, 8u)]
+        [InlineData(0b110u, 8u)]
+        [InlineData(0b111u, 8u)]
+        [InlineData(0b1000u, 8u)]
+        [InlineData(0b1001u, 16u)]
+        [InlineData(0b1010u, 16u)]
+        [InlineData(0b1011u, 16u)]
+        [InlineData(0b1100u, 16u)]
+        [InlineData(0b1101u, 16u)]
+        [InlineData(0b1110u, 16u)]
+        [InlineData(0b1111u, 16u)]
+        [InlineData(0b10000u, 16u)]
+        [InlineData(0b11111u, 32u)]
+        [InlineData(0b100000u, 32u)]
+        [InlineData(0b100001u, 64u)]
+        [InlineData(uint.MaxValue, 0u)]
+        public static void BitOps_RoundUpToPowerOf2_nuint(uint n, uint expected)
+        {
+            nuint actual = BitOperations.RoundUpToPowerOf2((nuint)n);
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
         [InlineData(0u, 32)]
         [InlineData(0b1u, 31)]
         [InlineData(0b10u, 30)]
